@@ -77,4 +77,13 @@ const savedData = computed(() => formStore.savedData);
   padding: 10px 20px;
   width: fit-content;
 }
+
+@media (max-width: 650px) {
+  .data-card {
+    align-items: center;
+  }
+  .data-title {
+    align-self: center;
+  }
+}
 </style>

@@ -50,4 +50,10 @@ const validateAge = (event: Event) => {
   cursor: pointer;
   white-space: nowrap;
 }
+
+@media (max-width: 650px) {
+  .child-form {
+    flex-direction: column;
+  }
+}
 </style>
