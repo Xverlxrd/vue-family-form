@@ -1,9 +1,9 @@
 <template>
   <div class="grid">
     <Header/>
-    <section class="content">
+    <main class="content">
       <slot/>
-    </section>
+    </main>
     <Footer/>
   </div>
 </template>

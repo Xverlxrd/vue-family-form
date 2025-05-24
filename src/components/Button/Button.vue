@@ -43,6 +43,7 @@ button {
   outline: none;
   border-radius: 100px;
   padding: 10px 20px;
+  width: fit-content;
 }
 
 button:disabled {
