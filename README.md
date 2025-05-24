@@ -1,3 +1,6 @@
+Версия Node v22.14.0
+Версия npm 10.9.2
+
 # .
 
 This template should help get you started developing with Vue 3 in Vite.
