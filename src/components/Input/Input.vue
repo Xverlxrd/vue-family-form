@@ -2,8 +2,9 @@
   <div class="input-wrapper">
     <span class="label">{{ label }}</span>
     <input
+        :value="modelValue"
         :placeholder="placeholder"
-        @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+        @input="handleInput($event)"
         @change="$emit('change', $event)"
         @focus="$emit('focus', $event)"
         @blur="$emit('blur', $event)"
@@ -17,19 +18,33 @@ const props = withDefaults(defineProps<{
   modelValue?: string | number;
   label?: string;
   placeholder?: string;
+  maxLength?: number;
 }>(), {
   label: '',
   placeholder: '',
-  modelValue: ''
+  modelValue: '',
+  maxLength: undefined
 });
 
-defineEmits<{
+const emit = defineEmits<{
   (e: 'update:modelValue', value: string | number): void;
   (e: 'change', event: Event): void;
   (e: 'focus', event: FocusEvent): void;
   (e: 'blur', event: FocusEvent): void;
   (e: 'keydown', event: KeyboardEvent): void;
 }>();
+
+const handleInput = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  let value = target.value;
+
+  if (props.maxLength !== undefined && value.length > Number(props.maxLength)) {
+    value = value.slice(0, props.maxLength);
+    target.value = value;
+  }
+
+  emit('update:modelValue', value);
+};
 </script>
 
 <style scoped>
