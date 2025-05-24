@@ -18,8 +18,8 @@ import { ref, onMounted } from "vue";
 import { useFormStore } from "@/stores/formStore";
 import type { FormData } from "@/types/form";
 import ParentForm from "@/components/FormComponents/ParentForm/ParentForm.vue";
-import ChildrenList from "@/components/FormComponents/ChildrenList/ChildrenList.vue";
 import Button from "@/components/Button/Button.vue";
+import ChildrenList from "@/components/FormComponents/ChildrenList/ChildrenList.vue";
 
 const formStore = useFormStore();
 const formData = ref<FormData>({
