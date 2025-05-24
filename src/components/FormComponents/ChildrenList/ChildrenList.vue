@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue';
+import {defineProps, defineEmits} from 'vue';
 import ChildForm from "@/components/FormComponents/ChildForm/ChildForm.vue";
 import Button from "@/components/Button/Button.vue";
 

@@ -1,13 +1,13 @@
 <template>
   <div class="child-form">
     <Input
-        v-model="form.name"
+        v-model="child.name"
         label="Имя"
         placeholder="Введите имя ребенка"
         @input="validateName"
     />
     <Input
-        v-model.number="form.age"
+        v-model.number="child.age"
         label="Возраст"
         type="number"
         placeholder="Введите возраст"
@@ -19,37 +19,22 @@
   </div>
 </template>
 
-<script setup>
-import { watch, reactive } from 'vue';
+<script setup lang="ts">
 import Input from "@/components/Input/Input.vue";
+import {ChildData} from '@/types/form.ts'
 
-const props = defineProps({
-  modelValue: {
-    type: Object,
-    required: true,
-    validator: (value) => {
-      return 'name' in value && 'age' in value;
-    }
-  }
-});
+const child = defineModel<ChildData>({required: true});
 
-const emit = defineEmits(['update:modelValue', 'remove']);
-
-const form = reactive({ ...props.modelValue });
-
-const validateName = (event) => {
-  form.name = event.target.value.replace(/[^a-zA-Zа-яА-ЯёЁ\s]/g, '');
+const validateName = (event: Event) => {
+  const input = event.target as HTMLInputElement;
+  child.value.name = input.value.replace(/[^a-zA-Zа-яА-ЯёЁ\s]/g, '');
 };
 
-const validateAge = (event) => {
-  let age = event.target.value.replace(/\D/g, '');
-  age = age === '' ? null : Math.min(99, parseInt(age, 10));
-  form.age = age;
+const validateAge = (event: Event) => {
+  const input = event.target as HTMLInputElement;
+  const digitsOnly = input.value.replace(/\D/g, '');
+  child.value.age = digitsOnly === '' ? null : Math.min(99, parseInt(digitsOnly, 10));
 };
-
-watch(form, (newValue) => {
-  emit('update:modelValue', newValue);
-}, { deep: true });
 </script>
 
 <style scoped>

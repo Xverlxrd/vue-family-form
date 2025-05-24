@@ -32,6 +32,7 @@
   cursor: pointer;
   transition: color 0.5s;
 }
+
 .nav-link:hover {
   color: black
 }

@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {createRouter, createWebHistory} from 'vue-router'
 import FormView from '@/views/FormView.vue'
 import PreviewView from "@/views/PreviewView.vue";
 

@@ -20,13 +20,13 @@
 </template>
 
 <script setup lang="ts">
-import { watch } from 'vue';
+import {watch} from 'vue';
 import Input from "@/components/Input/Input.vue";
 
 const parent = defineModel('parent', {
   type: Object,
   required: true,
-  default: () => ({ name: '', age: null })
+  default: () => ({name: '', age: null})
 });
 
 const validateName = (event: Event) => {
@@ -43,7 +43,7 @@ const validateAge = (event) => {
 watch(() => parent.value, (newVal) => {
   if (!newVal.name) newVal.name = '';
   if (!newVal.age) newVal.age = null;
-}, { immediate: true });
+}, {immediate: true});
 </script>
 
 <style scoped>

@@ -1,5 +1,5 @@
-import { defineStore } from 'pinia';
-import type { FormData } from "@/types/form";
+import {defineStore} from 'pinia';
+import type {FormData} from "@/types/form";
 
 export const useFormStore = defineStore('form', {
     state: (): { savedData: FormData | null } => ({
