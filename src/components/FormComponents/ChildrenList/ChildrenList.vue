@@ -12,7 +12,7 @@
     </div>
     <ChildForm
         v-for="(child, index) in modelValue"
-        :key="index"
+        :key="child.id"
         v-model="modelValue[index]"
         @remove="removeChild(index)"
     />
@@ -39,7 +39,13 @@ const emit = defineEmits(['update:modelValue']);
 
 const addChild = () => {
   const newChildren = [...props.modelValue];
-  newChildren.push({ name: '', age: null });
+  newChildren.push(
+      {
+        id: Date.now(),
+        name: '',
+        age: null
+      });
+
   emit('update:modelValue', newChildren);
 };
 

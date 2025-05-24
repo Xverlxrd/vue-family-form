@@ -1,19 +1,5 @@
 import { defineStore } from 'pinia';
-
-interface ParentData {
-    name: string;
-    age: number | null;
-}
-
-interface ChildData {
-    name: string;
-    age: number | null;
-}
-
-interface FormData {
-    parent: ParentData;
-    children: ChildData[];
-}
+import type { FormData } from "@/types/form";
 
 export const useFormStore = defineStore('form', {
     state: (): { savedData: FormData | null } => ({
@@ -21,10 +7,17 @@ export const useFormStore = defineStore('form', {
     }),
     actions: {
         saveFormData(data: FormData): void {
-            this.savedData = data;
-        },
-        getSavedData(): FormData | null {
-            return this.savedData;
+            this.savedData = {
+                parent: {
+                    name: data.parent.name,
+                    age: data.parent.age !== null ? Number(data.parent.age) : null
+                },
+                children: data.children.map(child => ({
+                    id: child.id,
+                    name: child.name,
+                    age: child.age !== null ? Number(child.age) : null
+                }))
+            };
         }
     }
 });

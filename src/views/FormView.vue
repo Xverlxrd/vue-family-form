@@ -14,46 +14,75 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useFormStore } from "@/stores/formStore";
+import type { FormData } from "@/types/form";
 import ParentForm from "@/components/FormComponents/ParentForm/ParentForm.vue";
 import ChildrenList from "@/components/FormComponents/ChildrenList/ChildrenList.vue";
 import Button from "@/components/Button/Button.vue";
 
 const formStore = useFormStore();
-const formData = ref({
+const formData = ref<FormData>({
   parent: { name: '', age: null },
   children: []
 });
 
 const errors = ref<string[]>([]);
 
-const validateForm = () => {
+
+onMounted(() => {
+  if (formStore.savedData) {
+    formData.value = {
+      parent: {
+        name: formStore.savedData.parent.name,
+        age: formStore.savedData.parent.age !== null ?
+            Number(formStore.savedData.parent.age) : null
+      },
+      children: formStore.savedData.children.map(child => ({
+        id: child.id || Date.now(),
+        name: child.name,
+        age: child.age !== null ? Number(child.age) : null
+      }))
+    };
+  }
+});
+
+const validateForm = (): boolean => {
   errors.value = [];
 
-  if (!formData.value.parent.name.trim()) {
+  const parentName = formData.value.parent.name.trim();
+  const parentAge = formData.value.parent.age;
+
+  if (!parentName) {
     errors.value.push('✖ Имя родителя обязательно для заполнения');
   }
 
-  if (formData.value.parent.age === null || formData.value.parent.age === '') {
+  if (parentAge === null) {
     errors.value.push('✖ Возраст родителя обязателен для заполнения');
-  } else if (formData.value.parent.age < 18) {
-    errors.value.push('✖ Возраст родителя должен быть не менее 18 лет');
-  } else if (formData.value.parent.age > 120) {
-    errors.value.push('✖ Возраст родителя должен быть не более 120 лет');
+  } else if (typeof parentAge === 'number') {
+    if (parentAge < 18) {
+      errors.value.push('✖ Возраст родителя должен быть не менее 18 лет');
+    } else if (parentAge > 120) {
+      errors.value.push('✖ Возраст родителя должен быть не более 120 лет');
+    }
   }
 
   formData.value.children.forEach((child, index) => {
-    if (!child.name?.trim()) {
+    const childName = child.name?.trim();
+    const childAge = child.age;
+
+    if (!childName) {
       errors.value.push(`✖ Имя ребенка #${index + 1} обязательно для заполнения`);
     }
 
-    if (child.age === null || child.age === '') {
+    if (childAge === null) {
       errors.value.push(`✖ Возраст ребенка #${index + 1} обязателен для заполнения`);
-    } else if (child.age < 1) {
-      errors.value.push(`✖ Возраст ребенка #${index + 1} должен быть не менее 1 года`);
-    } else if (child.age > 18) {
-      errors.value.push(`✖ Возраст ребенка #${index + 1} должен быть не более 18 лет`);
+    } else if (typeof childAge === 'number') {
+      if (childAge < 1) {
+        errors.value.push(`✖ Возраст ребенка #${index + 1} должен быть не менее 1 года`);
+      } else if (childAge > 18) {
+        errors.value.push(`✖ Возраст ребенка #${index + 1} должен быть не более 18 лет`);
+      }
     }
   });
 
